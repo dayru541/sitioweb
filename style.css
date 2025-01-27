@@ -1,0 +1,161 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #f8c8d8, #d8c8f8);
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.header-title {
+    font-size: 1.2em; /* Tamaño más pequeño para el encabezado */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav {
+    background-color: #8e44ad; /* Color morado para el encabezado del menú */
+    padding: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li button {
+    background-color: #9b59b6;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+nav ul li button:hover {
+    background-color: #8e44ad;
+}
+
+h1 {
+    color: #9b59b6;
+}
+
+h2 {
+    color: #8e44ad;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gestion-tareas {
+    width: 500px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.contenido-principal {
+    width: 100%;
+}
+
+.galeria {
+    text-align: center; /* Centrar el contenido de la galería */
+}
+
+.galeria-imagenes {
+    display: flex;
+    justify-content: center; /* Centrar la galería */
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.galeria-imagenes img {
+    width: 150px; /* Tamaño más pequeño para las imágenes de la galería */
+    border-radius: 10px;
+}
+
+.comentarios {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #9b59b6;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #9b59b6;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8e44ad;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-media {
+    margin-top: 10px;
+}
+
+.social-logo {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+}
+
+#comment-list li {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+#video-library {
+    margin-top: 20px;
+}
+
+.heart-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}

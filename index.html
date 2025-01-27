@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Empresa de Pilates</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="imagen/img.jpg.jpg" alt="Imagen de Pilates" class="header-image">
+        <h1 class="header-title">Welcome to DailyTask</h1>
+        <nav>
+            <ul>
+                <li><button onclick="scrollToSection('inicio')">Inicio</button></li>
+                <li><button onclick="scrollToSection('progreso')">Progreso</button></li>
+                <li><button onclick="scrollToSection('galeria')">Galería</button></li>
+                <li><button onclick="scrollToSection('soporte')">Soporte</button></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <section class="organice su rutina " id="progreso">
+                <h2>organiza su rutina hoy</h2>
+                <form id="task-form">
+                    <input type="text" id="task" placeholder="Nueva tarea">
+                    <input type="datetime-local" id="due-date">
+                    <input type="text" id="video-url" placeholder="URL del video" oninput="updateThumbnail()">
+                    <img id="video-thumbnail" src="" alt="Miniatura del video" style="display:none; width: 150px; margin-top: 10px;">
+                    <button type="submit">Agregar Tarea</button>
+                </form>
+                <ul id="task-list"></ul>
+                <h3>Biblioteca de Videos Realizados</h3>
+                <ul id="video-library"></ul>
+            </section>
+
+            <div class="contenido-principal" id="galeria">
+                <section class="galeria">
+                    <h2>Galería</h2>
+                    <div class="galeria-imagenes">
+                        <img src="imagen/img1.jpg.jpg" alt="Imagen 1">
+                        <img src="imagen/img2.jpg.jpg" alt="Imagen 2">
+                        <img src="imagen/img3.jpg.jpg" alt="Imagen 3">
+                        <img src="imagen/img4.jpg.jpg" alt="Imagen 4">
+                    </div>
+                </section>
+
+                <section class="comentarios" id="soporte">
+                    <h2>Comentarios</h2>
+                    <form id="comment-form">
+                        <textarea id="comment" placeholder="Escribe tu comentario aquí..." required></textarea>
+                        <button type="submit">Enviar Comentario</button>
+                    </form>
+                    <ul id="comment-list"></ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <h2>Síguenos en:</h2>
+        <div class="social-media">
+            <a href="https://www.facebook.com" target="_blank">
+                <img src="imagen/face.jpg.jpg" alt="Facebook" class="social-logo">
+            </a>
+            <a href="https://www.instagram.com" target="_blank">
+                <img src="imagen/instagram.jpg.jpg" alt="Instagram" class="social-logo">
+            </a>
+            <a href="https://www.twitter.com" target="_blank">
+                <img src="imagen/twiter.jpg.jpg" alt="Twitter" class="social-logo">
+            </a>
+        </div>
+        <p>&copy; 2023 dailytask. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        const taskForm = document.getElementById('task-form');
+        const taskList = document.getElementById('task-list');
+        const commentForm = document.getElementById('comment-form');
+        const commentList = document.getElementById('comment-list');
+        const videoLibrary = document.getElementById('video-library');
+
+        taskForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const taskInput = document.getElementById('task');
+            const dueDateInput = document.getElementById('due-date');
+            const videoUrlInput = document.getElementById('video-url');
+
+            if (taskInput.value || videoUrlInput.value) {
+                const taskItem = document.createElement('li');
+                taskItem.innerHTML = `
+                    <strong>${taskInput.value || 'Video'}</strong> - ${dueDateInput.value || ''}
+                    <br>
+                    ${videoUrlInput.value ? `<iframe width="300" height="200" src="${videoUrlInput.value.replace('watch?v=', 'embed/')}" frameborder="0" allowfullscreen></iframe>` : ''}
+                    <button class="mark-done">Marcar como realizado</button>
+                `;
+                taskList.appendChild(taskItem);
+                
+                if (videoUrlInput.value) {
+                    const videoItem = document.createElement('li');
+                    videoItem.innerHTML = `
+                        <strong>${taskInput.value || 'Video'}</strong>
+                        <br>
+                        <iframe width="100" height="75" src="${videoUrlInput.value.replace('watch?v=', 'embed/')}" frameborder="0" allowfullscreen></iframe>
+                        <button class="heart-button">❤️</button>
+                    `;
+                    videoLibrary.appendChild(videoItem);
+                }
+
+                taskInput.value = '';
+                dueDateInput.value = '';
+                videoUrlInput.value = '';
+                document.getElementById('video-thumbnail').style.display = 'none'; // Ocultar la miniatura
+            }
+        });
+
+        taskList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('mark-done')) {
+                const taskItem = event.target.parentElement;
+                taskItem.style.textDecoration = 'line-through';
+                event.target.disabled = true;
+            }
+        });
+
+        commentForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const commentInput = document.getElementById('comment');
+
+            const commentItem = document.createElement('li');
+            commentItem.textContent = commentInput.value;
+            commentItem.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+            commentList.appendChild(commentItem);
+
+            commentInput.value = '';
+
+            // Mensaje automático
+            setTimeout(() => {
+                const autoResponse = document.createElement('li');
+                autoResponse.textContent = 'Gracias por tu comentario!';
+                autoResponse.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+                commentList.appendChild(autoResponse);
+            }, 1000);
+        });
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateThumbnail() {
+            const videoUrlInput = document.getElementById('video-url').value;
+            const thumbnailImg = document.getElementById('video-thumbnail');
+
+            const videoId = extractVideoID(videoUrlInput);
+            if (videoId) {
+                thumbnailImg.src = `https://img.youtube.com/vi/${videoId}/0.jpg`;
+                thumbnailImg.style.display = 'block'; // Mostrar la miniatura
+            } else {
+                thumbnailImg.style.display = 'none'; // Ocultar si no es un enlace válido
+            }
+        }
+
+        function extractVideoID(url) {
+            const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const matches = url.match(regex);
+            return matches ? matches[1] : null;
+        }
+    </script>
+</body>
+</html>
